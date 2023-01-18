@@ -4,7 +4,7 @@ package com.linusoutman.eventserver.web.common;
 public enum ResultStatus {
 
   Failed(10001, "request failed"),
-  CREATE_EVENT_FAILED(10002, "create job failed"),
+  CREATE_EVENT_FAILED(10002, "create event failed"),
   GET_EVENT_LIST_FAILED(10003, "get event list failed");
 
   private int code;

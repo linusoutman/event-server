@@ -27,7 +27,7 @@ public class EventJobController {
             List<EventJob> result = eventJobService.getAllJob();
             return ResponseInfo.ok().put("data", result);
         } catch (Exception e) {
-            log.error("get job list failed, error : " + e.getMessage());
+            log.error("get event list failed, error : " + e.getMessage());
             return ResponseInfo.error(ResultStatus.GET_EVENT_LIST_FAILED);
         }
     }
@@ -42,7 +42,7 @@ public class EventJobController {
                 return ResponseInfo.error(ResultStatus.CREATE_EVENT_FAILED);
             }
         } catch (Exception e) {
-            log.error("create job failed, error : " + e.getMessage());
+            log.error("create event failed, error : " + e.getMessage());
             return ResponseInfo.error(ResultStatus.CREATE_EVENT_FAILED);
         }
     }
