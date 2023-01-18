@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.linusoutman.eventserver.web.mapper.EventJobMapper">
+
+    <resultMap id="EventJobResultMap" type="com.linusoutman.eventserver.web.entity.EventJob">
+        <result column="id" property="id" jdbcType="BIGINT"/>
+        <result column="params" property="params" jdbcType="VARCHAR"/>
+        <result column="created_at" property="createdAt" jdbcType="TIMESTAMP"/>
+        <result column="updated_at" property="updatedAt" jdbcType="TIMESTAMP"/>
+        <result column="deleted_at" property="deleteAt" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="com.linusoutman.eventserver.web.entity.EventJob">
+        insert into eventjob
+        (`id`,
+         `params`)
+        values (#{id},
+                #{params}})
+    </insert>
+
+
+    <select id="getAll" resultType="com.linusoutman.eventserver.web.entity.EventJob" resultMap="EventJobResultMap">
+        select id,
+               params,
+               created_at,
+               updated_at,
+               deleted_at
+        from eventjob
+    </select>
+</mapper>

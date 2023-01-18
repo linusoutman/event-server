@@ -1,0 +1,73 @@
+# Tomcat
+server:
+  port: 8018
+
+spring:
+  application:
+    name: event-server
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+  servlet:
+    multipart:
+      maxRequestSize: 104857600 #100MB
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 5132418919
+    url: jdbc:mysql://192.168.110.118:3306/event-server?characterEncoding=utf8
+  kafka:
+    listener:
+      #设置是否批量消费，默认 single（单条），batch（批量）
+      type: single
+    # 集群地址
+    bootstrap-servers: 172.26.2.154:9092,172.26.2.239:9092,172.26.2.179:9092
+    # 生产者配置
+    producer:
+      # 重试次数
+      retries: 3
+      # 应答级别
+      # acks=0 把消息发送到kafka就认为发送成功
+      # acks=1 把消息发送到kafka leader分区，并且写入磁盘就认为发送成功
+      # acks=all 把消息发送到kafka leader分区，并且leader分区的副本follower对消息进行了同步就任务发送成功
+      acks: all
+      # 批量处理的最大大小 单位 byte
+      batch-size: 4096
+      # 发送延时,当生产端积累的消息达到batch-size或接收到消息linger.ms后,生产者就会将消息提交给kafka
+      buffer-memory: 33554432
+      # 客户端ID
+      client-id: event-server
+      # Key 序列化类
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      # Value 序列化类
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      # 消息压缩：none、lz4、gzip、snappy，默认为 none。
+      compression-type: gzip
+      properties:
+        # partitioner:
+          #指定自定义分区器
+          # class: top.zysite.hello.kafka.partitioner.MyPartitioner
+        linger:
+          # 发送延时,当生产端积累的消息达到batch-size或接收到消息linger.ms后,生产者就会将消息提交给kafka
+          ms: 1000
+        max:
+          block:
+            # KafkaProducer.send() 和 partitionsFor() 方法的最长阻塞时间 单位 ms
+            ms: 6000
+kafka:
+  topic: event-server
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+logging:
+  level:
+    com.vision: info
+    com.vision.web.mapper: info
+
+mybatis:
+  mapper-locations: classpath:/mapper/*Mapper.xml
